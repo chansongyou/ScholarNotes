@@ -82,5 +82,16 @@ __For Primary Components__
 
 ### 3.1 Problem Formulation
 
+SWE-Agent의 작업 M
+
+`M = (S, C, A, V, P, p0, ρ)`
+
+S: 상태 공간 (State Space). 에이전트가 작업 중인 파일의 현재 컨텍스트와 코드베이스의 전체 상태와 같은 모든 가능한 상태를 포함.
+
+C: 컨텍스트 공간(Context Space). 리포지토리와 초기 문제 설명과 같은 메타데이터.
+
+V: 가치 함수(Value Function). 각 상태-행동 페어인 O(a, t)에 대해 유틸리티 점수를 할당해서 에이전트의 결정에 영향. 
+
+
 
 
