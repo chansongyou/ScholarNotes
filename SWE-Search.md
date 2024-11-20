@@ -75,10 +75,10 @@ SWE-Search는 동적 플래닝, 가치 추정, 그리고 신중한 의사 결정
 - Discriminator → 토론을 통한 최종 의사 결정
 
 __For Primary Components__
-1. __SWE-Search Framework and Action Agent__: Moatless-tools 프레임워크를 기반으로 구축. Git과 같은 커밋 트리 구조를 갖춘 동적 코드 환경에서 작동. 이전 상태로 효율적으로 백트래킹이 가능해서 다양한 해결 경로 탐색.
-2. __Search Algorithm__: 핵심인 __MCTS__를 채용한 탐색 전략. AlphaZero와 비슷한 휴리스틱 기반의 선택 프로세스를 이용. MCTS 알고리즘을 소프트웨어 엔지니어링 업무용으로 수정.
-3. __Value(Function) Agent__: 각 Observation의 유틸리티를 측정하기 위한 LLM-based value function. 자연어로 된 설명과 숫자를 반환함. 여기서 나온 설명은 그 다음 액션을 향상시키기 위해 사용됨(Self-feedback loop).
-4. __Discriminator Agent__: 마지막 단계에서 검색 과정에서 생성된 솔루션을 평가. 여기서 멀티 에이전트가 토론 후 최종 결정.
+ 1. __SWE-Search Framework and Action Agent__: Moatless-tools 프레임워크를 기반으로 구축. Git과 같은 커밋 트리 구조를 갖춘 동적 코드 환경에서 작동. 이전 상태로 효율적으로 백트래킹이 가능해서 다양한 해결 경로 탐색.
+ 2. __Search Algorithm__: 핵심인 __MCTS__를 채용한 탐색 전략. AlphaZero와 비슷한 휴리스틱 기반의 선택 프로세스를 이용. MCTS 알고리즘을 소프트웨어 엔지니어링 업무용으로 수정.
+ 3. __Value(Function) Agent__: 각 Observation의 유틸리티를 측정하기 위한 LLM-based value function. 자연어로 된 설명과 숫자를 반환함. 여기서 나온 설명은 그 다음 액션을 향상시키기 위해 사용됨(Self-feedback loop).
+ 4. __Discriminator Agent__: 마지막 단계에서 검색 과정에서 생성된 솔루션을 평가. 여기서 멀티 에이전트가 토론 후 최종 결정.
 
 ### 3.1 Problem Formulation
 
@@ -113,11 +113,14 @@ p_0: 초기 상태 분포(Initial State Distribution).
 그리고 환경이 새로운 상태인 s_{t+1} ~ P(·|s_t, a_t, c)로 전이되고, 에이전트는 이 업데이트 된 상태를 확인.
 
 시간이 지나면서, Agent가 환경과 상호작용 하면서 이 과정이 반복되어 궤적(Trajectory) τ를 생성.
-- τ := {s_t, a_t, r_t}t=0~T
+ - ![image](https://github.com/user-attachments/assets/64bb3083-08ef-4efa-8f37-2e1442cc1512)
 
-#### 수식을 이해하는데 어려움이 있을까 해서 원문 추가
-![image](https://github.com/user-attachments/assets/5ff9e155-632e-453b-a6e3-ad843d25082e)
+**에이전트의 목적은 궤적에 걸쳐 누적 보상을 최대화 하는 것.**
 
+여기서 보상을 정하는 가치 함수 ![image](https://github.com/user-attachments/assets/99e55366-31f9-465d-bf67-64e4e3875ca3)
+ - 이 가치 함수는 현재 상태와 행동뿐만 아니라 이전 상태와 행동의 역사에도 의존하기 때문에 마르코프 과정의 가정에서 벗어남.
+
+![image](https://github.com/user-attachments/assets/3f161e96-e1e0-49d2-bcd0-1e3cce9553ab)
 
 ### 3.2 SWE-Search Framework and Action Agent
 
