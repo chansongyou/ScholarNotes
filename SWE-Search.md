@@ -84,7 +84,7 @@ __For Primary Components__
 
 SWE-Agent의 작업 M
 
-`M = (S, C, A, V, P, p_0, ρ)`
+- `M = (S, C, A, V, P, p_0, ρ)`
 
 - S: 상태 공간 (State Space). 에이전트가 작업 중인 파일의 현재 컨텍스트와 코드베이스의 전체 상태와 같은 모든 가능한 상태를 포함.
 
@@ -93,16 +93,16 @@ SWE-Agent의 작업 M
 - V: 가치 함수(Value Function). 각 상태-행동 페어인 O(a, t)에 대해 유틸리티 점수를 할당해서 에이전트의 결정에 영향. 
 
 - P: 컨텍스트에 따라 달라지는 전이 함수(Context-dependent Transition Function).
- - `S × A × C → ∆(S)`
- - 각 행동 후에 리포지토리 상태의 변화를 나타냄.
- - 여기서 A는 Action으로 유추.
+  - `S × A × C → ∆(S)`
+  - 각 행동 후에 리포지토리 상태의 변화를 나타냄.
+  - 여기서 A는 Action으로 유추.
 
 - p_0: 초기 상태 분포(Initial State Distribution).
- - `C → ∆(S)`
- - 주어진 Context에 따라 초기 상태가 어떻게 결정되는지를 나타냄.
+  - `C → ∆(S)`
+  - 주어진 Context에 따라 초기 상태가 어떻게 결정되는지를 나타냄.
 
 - ρ: Context에 대한 분포
- - `ρ ∈ ∆(C)`
+  - `ρ ∈ ∆(C)`
 
 주어진 초기 컨텍스트 c\~ρ와 초기 상태로 c_0\~p_0(·|c) SWE-Agent가 policy π를 수행.
 
