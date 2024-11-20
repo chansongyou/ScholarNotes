@@ -52,7 +52,8 @@ SWE-Bench 벤치마크를 가지고 평가.
 - [_SWE-Agent_](https://arxiv.org/pdf/2405.15793): Agent-Computer Interface. [repo url](https://github.com/princeton-nlp/SWE-agent)
 - [_OpenDevin_](https://github.com/All-Hands-AI/OpenHands): Community-driven agents(_CodeAct_ 등)
 - [_Agentless approach_](https://github.com/OpenAutoCoder/Agentless): 위치 지정 + 수정, 이 두 단계로 구성된 간단한 과정
-- [_AutoCodeRover_](https://arxiv.org/pdf/2404.05427): AST 및 스펙트럼 기반의 Fault Localization
+- [_AutoCodeRover_](https://arxiv.org/pdf/2404.05427): AST 및 스펙트럼 기반의 Fault Localization.
+  - **TODO** 스펙트럼 기반의 Fault Localization이 뭔지 나중에 해당 논문을 확인해봐야 할듯.
 - _Alibaba Lingma Agent_: [How to Understand Whole Software Repository?](https://arxiv.org/pdf/2406.01422) 기반의 방식.
 
 ### Methodology
