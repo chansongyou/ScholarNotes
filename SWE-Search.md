@@ -58,6 +58,19 @@ SWE-Bench 벤치마크를 가지고 평가.
 
 ### Methodology
 
+SWE-Search는 동적 플래닝, 가치 추정, 그리고 신중한 의사 결정을 결합해 복잡한 소프트웨어 엔지니어링 업무를 처리하도록 디자인 된 다중 에이전트 시스템이다.
+이 방법을 고안하게 된 가장 큰 동기는 인간 소프트웨어 엔지니어의 복잡하고 반복적인 워크플로우를 모방하기 위해서. 탐색하고, 계획하고, 그리고 협력하는 부분이 이런 복잡한 문제를 해결하는데 중요.
+- MCTS -> Planning
+- Value Agent -> 유틸리티 추정 및 피드백
+- Discriminator -> 토론을 통한 최종 의사 결정
+
+__For Primary Components__
+1. SWE-Search Framework and Action Agent
+2. Search Algorithm
+3. Value(Function) Agent
+4. Discriminator Agent
+
+
 
 
 ## 참고 자료
