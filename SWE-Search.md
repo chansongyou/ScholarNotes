@@ -37,3 +37,42 @@ SWE-Bench 벤치마크를 가지고 평가.
 ## 2. Related Work
 
 ### Search Method
+
+- 가능한 선택지를 탐색하고 기억하는 전략과 이들 사이를 전환하는 휴리스틱 방식에서 차이를 보임.
+  1. 너비 우선 탐색 (Breadth-first)
+     - 모든 경로를 유지하지만 상당한 메모리와 계산 비용 발생.
+  2. 깊이 우선 탐색 (Depth-first)
+     - 상대적으로 더 greedy한 선택을 해 가장 유망한 경로를 우선시.
+- LLM에 적용할 때, 이런 방법들은 텍스트 생성에서 다양성과 품질 사이의 트레이드오프가 있음을 보여줌.
+- A* 알고리즘은 미리 정해진 평가 함수를 사용해 너비 우선과 탐욕적 선택을 적절히 조합해서 최적의 솔루션을 찾도록 함.
+- 이 논문에서는 __Monte Carlo Tree Search__를 채용해, 각 상태에 대한 전용 평가 휴리스틱을 필요로 하지 않고 통계적 트리 탐색을 수행함.
+
+### Software Agents
+
+- [_SWE-Agent_](https://arxiv.org/pdf/2405.15793): Agent-Computer Interface. [repo url](https://github.com/princeton-nlp/SWE-agent)
+- [_OpenDevin_](https://github.com/All-Hands-AI/OpenHands): Community-driven agents(_CodeAct_ 등)
+- [_Agentless approach_](https://github.com/OpenAutoCoder/Agentless): 위치 지정 + 수정, 이 두 단계로 구성된 간단한 과정
+- [_AutoCodeRover_](https://arxiv.org/pdf/2404.05427): AST 및 스펙트럼 기반의 Fault Localization
+- _Alibaba Lingma Agent_: [How to Understand Whole Software Repository?](https://arxiv.org/pdf/2406.01422) 기반의 방식.
+
+### Methodology
+
+
+
+## 참고 자료
+
+### System 2 Thinking
+
+(Answered by GPT-4o)
+
+시스템 2 사고(System 2 Thinking)는 심리학자 대니얼 카너먼(Daniel Kahneman)이 그의 저서 *생각에 관한 생각(Thinking, Fast and Slow)*에서 소개한 개념으로, 인간의 사고 과정에서 느리고 논리적이며 의식적인 사고 방식을 말합니다. 
+
+시스템 2는 문제 해결이나 의사 결정 과정에서 주로 작동하며, 신중한 분석과 체계적인 사고가 필요할 때 활성화됩니다. 이 방식은 주어진 정보를 평가하고, 논리적 추론을 통해 해결책을 도출하거나 복잡한 문제를 해결할 때 중요한 역할을 합니다. 예를 들어, 수학 문제를 풀거나 논리적 퍼즐을 해결할 때, 시스템 2 사고가 사용됩니다.
+
+**특징**:
+- **속도**: 시스템 2는 느리게 작동하며, 시간이 필요합니다.
+- **에너지 소모**: 고도로 집중된 사고를 요구하며, 많은 정신적 에너지를 소비합니다.
+- **의식적 처리**: 시스템 2는 의식적인 사고를 수반하며, 정보나 규칙을 논리적으로 분석합니다.
+- **복잡한 문제 해결**: 복잡하거나 새로운 문제에 직면했을 때, 비판적 사고를 적용하여 결정을 내립니다.
+
+시스템 2 사고는 시스템 1 사고(빠르고 직관적인 사고)와는 대조적입니다. 시스템 1은 즉각적이고 자동적인 반응을 제공합니다. 둘 다 인간의 인지 시스템에서 상호작용하며 상황에 따라 적절한 사고 방식을 사용합니다. 예를 들어, 길거리에서 갑자기 차가 다가오면 시스템 1이 반사적으로 반응하는 반면, 집을 살 때처럼 복잡한 결정을 내릴 때는 시스템 2가 활성화됩니다.
