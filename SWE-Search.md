@@ -70,9 +70,9 @@ SWE-Bench 벤치마크를 가지고 평가.
 
 SWE-Search는 동적 플래닝, 가치 추정, 그리고 신중한 의사 결정을 결합해 복잡한 소프트웨어 엔지니어링 업무를 처리하도록 디자인 된 다중 에이전트 시스템이다.
 이 방법을 고안하게 된 가장 큰 동기는 인간 소프트웨어 엔지니어의 복잡하고 반복적인 워크플로우를 모방하기 위해서. 탐색하고, 계획하고, 그리고 협력하는 부분이 이런 복잡한 문제를 해결하는데 중요.
-- MCTS -> Planning
-- Value Agent -> 유틸리티 추정 및 피드백
-- Discriminator -> 토론을 통한 최종 의사 결정
+- MCTS → Planning
+- Value Agent → 유틸리티 추정 및 피드백
+- Discriminator → 토론을 통한 최종 의사 결정
 
 __For Primary Components__
 1. __SWE-Search Framework and Action Agent__: Moatless-tools 프레임워크를 기반으로 구축. Git과 같은 커밋 트리 구조를 갖춘 동적 코드 환경에서 작동. 이전 상태로 효율적으로 백트래킹이 가능해서 다양한 해결 경로 탐색.
@@ -84,7 +84,7 @@ __For Primary Components__
 
 SWE-Agent의 작업 M
 
-`M = (S, C, A, V, P, p0, ρ)`
+`M = (S, C, A, V, P, p_0, ρ)`
 
 S: 상태 공간 (State Space). 에이전트가 작업 중인 파일의 현재 컨텍스트와 코드베이스의 전체 상태와 같은 모든 가능한 상태를 포함.
 
@@ -92,6 +92,33 @@ C: 컨텍스트 공간(Context Space). 리포지토리와 초기 문제 설명�
 
 V: 가치 함수(Value Function). 각 상태-행동 페어인 O(a, t)에 대해 유틸리티 점수를 할당해서 에이전트의 결정에 영향. 
 
+P: 컨텍스트에 따라 달라지는 전이 함수(Context-dependent Transition Function).
+ - S × A × C → ∆(S)
+ - 각 행동 후에 리포지토리 상태의 변화를 나타냄.
+ - 여기서 A는 Action으로 유추.
 
+p_0: 초기 상태 분포(Initial State Distribution).
+ - C → ∆(S)
+ - 주어진 Context에 따라 초기 상태가 어떻게 결정되는지를 나타냄.
+
+ρ: Context에 대한 분포
+ - ρ ∈ ∆(C)
+
+주어진 초기 컨텍스트 c\~ρ와 초기 상태로 c_0\~p_0(·|c) SWE-Agent가 policy π를 수행.
+
+π: S x C → ∆(A). 현재 상태와 컨텍스트를 기반으로 액션을 선택
+
+매 스텝 t마다, 에이전트는 액션 a_t ~ π(s_t, c)를 취하고, 그에 따른 보상 R(s_t, a_t, c)를 받음.
+
+그리고 환경이 새로운 상태인 s_{t+1} ~ P(·|s_t, a_t, c)로 전이되고, 에이전트는 이 업데이트 된 상태를 확인.
+
+시간이 지나면서, Agent가 환경과 상호작용 하면서 이 과정이 반복되어 궤적(Trajectory) τ를 생성.
+- τ := {s_t, a_t, r_t}t=0~T
+
+#### 수식을 이해하는데 어려움이 있을까 해서 원문 추가
+![image](https://github.com/user-attachments/assets/5ff9e155-632e-453b-a6e3-ad843d25082e)
+
+
+### 3.2 SWE-Search Framework and Action Agent
 
 
