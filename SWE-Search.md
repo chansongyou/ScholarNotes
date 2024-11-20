@@ -1,4 +1,4 @@
-# SWE-SEARCH: Enhancing Software Agents with Monte Carlo Tree Search and Interative Refinement
+# SWE-Search: Enhancing Software Agents with Monte Carlo Tree Search and Interative Refinement
 
 https://arxiv.org/pdf/2410.20285
 
@@ -12,7 +12,7 @@ __SWE-Search__ 를 소개.
     - _SWE-Agent_: 적응형 탐색 담당
     - _Value Agent_: 반복적 피드백 담당
     - _Discriminator Agent_: 협력적 의사 결정을 위해 다중 에이전트의 토론을 촉진하는 역할
-- MCTS를 사용하지 않았던 표준 open-source agents에 비해 __23%__의 상대적 향상을 보임
+- MCTS를 사용하지 않던 표준 open-source agents에 비해 __23%__의 상대적 향상을 보임
 
 ## 1. Introduction
 
