@@ -2,10 +2,20 @@
 
 https://arxiv.org/pdf/2410.20285
 
+## Table of Contents
+
+* [Abstract](#abstract)
+* [1. Introduction](#1-introduction)
+* [2. Related Work](#2-related-work)
+  * [Search Method](#search-method)
+  * [Software Agents](#software-agents)
+* [3. Methodology](#3-methodology)  
+  * [3.1 Problem Formulation](#31-problem-formulation)
+
 ## Abstract
 
 __SWE-Search__ 를 소개.
-  - Monte Carlo Tree Search와 리포지토리 레벨의 소프트웨어 작업에 대한 에이전트의 성능을 향상시키기 위한 self-improvement 메커니즘을 결합한 multi-agent framework.
+  - Monte Carlo Tree Search(MCTS)와 리포지토리 레벨의 소프트웨어 작업에 대한 에이전트의 성능을 향상시키기 위한 self-improvement 메커니즘을 결합한 multi-agent framework.
   - 전통적인 방식의 MCTS을 LLM을 숫자 값 추정과 질적 평가에 활용한 하이브리드 밸류 함수를 통합해 확장.
     - Agent가 자신이 추구하는 경로에 대해 정량적 숫자 평가와 질적 자연어 평가를 바탕으로 전략을 반복적으로 개선할 수 있는 self-feedback loop를 가능하게 함.
   - Multi-Agent Framework
@@ -45,7 +55,7 @@ SWE-Bench 벤치마크를 가지고 평가.
      - 상대적으로 더 greedy한 선택을 해 가장 유망한 경로를 우선시.
 - LLM에 적용할 때, 이런 방법들은 텍스트 생성에서 다양성과 품질 사이의 트레이드오프가 있음을 보여줌.
 - A* 알고리즘은 미리 정해진 평가 함수를 사용해 너비 우선과 탐욕적 선택을 적절히 조합해서 최적의 솔루션을 찾도록 함.
-- 이 논문에서는 __Monte Carlo Tree Search__를 채용해, 각 상태에 대한 전용 평가 휴리스틱을 필요로 하지 않고 통계적 트리 탐색을 수행함.
+- 이 논문에서는 __MCTS__를 채용해, 각 상태에 대한 전용 평가 휴리스틱을 필요로 하지 않고 통계적 트리 탐색을 수행함.
 
 ### Software Agents
 
@@ -56,7 +66,7 @@ SWE-Bench 벤치마크를 가지고 평가.
   - **TODO** 스펙트럼 기반의 Fault Localization이 뭔지 나중에 해당 논문을 확인해봐야 할듯.
 - _Alibaba Lingma Agent_: [How to Understand Whole Software Repository?](https://arxiv.org/pdf/2406.01422) 기반의 방식.
 
-### Methodology
+## 3. Methodology
 
 SWE-Search는 동적 플래닝, 가치 추정, 그리고 신중한 의사 결정을 결합해 복잡한 소프트웨어 엔지니어링 업무를 처리하도록 디자인 된 다중 에이전트 시스템이다.
 이 방법을 고안하게 된 가장 큰 동기는 인간 소프트웨어 엔지니어의 복잡하고 반복적인 워크플로우를 모방하기 위해서. 탐색하고, 계획하고, 그리고 협력하는 부분이 이런 복잡한 문제를 해결하는데 중요.
@@ -65,28 +75,12 @@ SWE-Search는 동적 플래닝, 가치 추정, 그리고 신중한 의사 결정
 - Discriminator -> 토론을 통한 최종 의사 결정
 
 __For Primary Components__
-1. SWE-Search Framework and Action Agent
-2. Search Algorithm
-3. Value(Function) Agent
-4. Discriminator Agent
+1. __SWE-Search Framework and Action Agent__: Moatless-tools 프레임워크를 기반으로 구축. Git과 같은 커밋 트리 구조를 갖춘 동적 코드 환경에서 작동. 이전 상태로 효율적으로 백트래킹이 가능해서 다양한 해결 경로 탐색.
+2. __Search Algorithm__: 핵심인 __MCTS__를 채용한 탐색 전략. AlphaZero와 비슷한 휴리스틱 기반의 선택 프로세스를 이용. MCTS 알고리즘을 소프트웨어 엔지니어링 업무용으로 수정.
+3. __Value(Function) Agent__: 각 Observation의 유틸리티를 측정하기 위한 LLM-based value function. 자연어로 된 설명과 숫자를 반환함. 여기서 나온 설명은 그 다음 액션을 향상시키기 위해 사용됨(Self-feedback loop).
+4. __Discriminator Agent__: 마지막 단계에서 검색 과정에서 생성된 솔루션을 평가. 여기서 멀티 에이전트가 토론 후 최종 결정.
+
+### 3.1 Problem Formulation
 
 
 
-
-## 참고 자료
-
-### System 2 Thinking
-
-(Answered by GPT-4o)
-
-시스템 2 사고(System 2 Thinking)는 심리학자 대니얼 카너먼(Daniel Kahneman)이 그의 저서 *생각에 관한 생각(Thinking, Fast and Slow)*에서 소개한 개념으로, 인간의 사고 과정에서 느리고 논리적이며 의식적인 사고 방식을 말합니다. 
-
-시스템 2는 문제 해결이나 의사 결정 과정에서 주로 작동하며, 신중한 분석과 체계적인 사고가 필요할 때 활성화됩니다. 이 방식은 주어진 정보를 평가하고, 논리적 추론을 통해 해결책을 도출하거나 복잡한 문제를 해결할 때 중요한 역할을 합니다. 예를 들어, 수학 문제를 풀거나 논리적 퍼즐을 해결할 때, 시스템 2 사고가 사용됩니다.
-
-**특징**:
-- **속도**: 시스템 2는 느리게 작동하며, 시간이 필요합니다.
-- **에너지 소모**: 고도로 집중된 사고를 요구하며, 많은 정신적 에너지를 소비합니다.
-- **의식적 처리**: 시스템 2는 의식적인 사고를 수반하며, 정보나 규칙을 논리적으로 분석합니다.
-- **복잡한 문제 해결**: 복잡하거나 새로운 문제에 직면했을 때, 비판적 사고를 적용하여 결정을 내립니다.
-
-시스템 2 사고는 시스템 1 사고(빠르고 직관적인 사고)와는 대조적입니다. 시스템 1은 즉각적이고 자동적인 반응을 제공합니다. 둘 다 인간의 인지 시스템에서 상호작용하며 상황에 따라 적절한 사고 방식을 사용합니다. 예를 들어, 길거리에서 갑자기 차가 다가오면 시스템 1이 반사적으로 반응하는 반면, 집을 살 때처럼 복잡한 결정을 내릴 때는 시스템 2가 활성화됩니다.
