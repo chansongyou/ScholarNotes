@@ -78,7 +78,7 @@ LLM-driven repository-level coding task의 목적은 `𝑅𝑡𝑎𝑟𝑔𝑒�
 
 ![image](https://github.com/user-attachments/assets/95245632-904f-4a6b-bc8d-99644b71eba4)
 
-* **CodePlan에게 주어지는 것들:**
+* **CodePlan에 주어지는 것들:**
   1. 리포지토리
   2. 자연어 지시나 수동 코드 편집 세트를 통해 표현된 초기 사양(seed specifications)을 포함한 작업(task)
   3. 올바름(correctness)을 판단하는 오라클(oracle)
