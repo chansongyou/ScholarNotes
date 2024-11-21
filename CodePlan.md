@@ -37,14 +37,16 @@ CodePlan은 다음과 같은 과정들을 포함:
 우리 리포지토리에서 다음 변경사항들을 모두 적용해야 하는 피키지 마이그레이션이 필요하게 되는데, 이런 경우엔 라이브러리 _L_ 을 이용하고 있는 모든 부분에서 수정이 필요할 수 있음.
 
 예로는 아래와 같은 상황이 있다.
+
 ![image](https://github.com/user-attachments/assets/14902c4c-0220-4d89-a5e0-4ab90196c454)
 
 그럼 결과적으로 아래와 같은 변경사항이 필요하게 됨.
+
 ![image](https://github.com/user-attachments/assets/06232ae1-7632-4e97-a05d-c2a65f49b392)
 
 ### Problem Formulation
 
-* Fig. 1에 표시된 것과 같은 **초기 사양(_seed specifications_)** 이 코드 편집 작업의 시작점이 됨.
+* Fig. 1에 표시된 것과 같은 **초기 사양(_seed specifications_)** 세트가 코드 편집 작업의 시작점이 됨.
 * 그 초기 사양에 따라 같이 변화되어야 하는 것이 Fig. 3.에서 `process` 메서드에 필요한 편집을 **파생 사양(_derived specifications_)** 이라 함.
 * 이런 모든 편집 과정이 전파돼 자동으로 전체 리포지토리를 _valid_ 한 상태로 만드는 것이 목적.
 * 여기서 validity는 oracle에 의해 정의되고, 다향한 방식으로 리포지토리 레벨의 정확성을 체크:
@@ -53,3 +55,25 @@ CodePlan은 다음과 같은 과정들을 포함:
     * 타입 시스템 or 테스트셋 통과
     * Veritication tool 통과
 
+여기서 LLM-driven repository-level coding task는 아래와 같이 정의
+```
+Given a start state of a repository 𝑅𝑠𝑡𝑎𝑟𝑡, a set of seed edit specifications Δ𝑠𝑒𝑒𝑑𝑠, an oracle Θ s.t.
+Θ(𝑅𝑠𝑡𝑎𝑟𝑡)= True, and an LLM 𝐿, the goal of an LLM-driven repository-level coding task is
+to reach a state 𝑅𝑡𝑎𝑟𝑔𝑒𝑡 = 𝐸𝑥𝑒𝑐𝑢𝑡𝑒𝐸𝑑𝑖𝑡𝑠 (𝐿, 𝑅𝑠𝑡𝑎𝑟𝑡, 𝑃) where 𝑃 is a chain of edit specifications from
+Δ𝑠𝑒𝑒𝑑𝑠 ∪ Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑 and Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑 is a set of derived edit specifications so that Θ(𝑅𝑡𝑎𝑟𝑔𝑒𝑡)= True.
+```
+
+설명하면,
+𝑅𝑠𝑡𝑎𝑟𝑡: 리포지토리의 시작 상태
+Δ𝑠𝑒𝑒𝑑𝑠: 초기 수정 사양 세트
+Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑: 파생 수정 사양 세트
+Θ: 오라클(oracle) 즉, Θ(𝑅𝑠𝑡𝑎𝑟𝑡)= True
+𝐿: LLM 
+
+LLM-driven repository-level coding task의 목적은 `𝑅𝑡𝑎𝑟𝑔𝑒𝑡 = 𝐸𝑥𝑒𝑐𝑢𝑡𝑒𝐸𝑑𝑖𝑡𝑠 (𝐿, 𝑅𝑠𝑡𝑎𝑟𝑡, 𝑃)` 인 𝑅𝑡𝑎𝑟𝑔𝑒𝑡에 도달하는 것인데, 
+
+여기서 P는 초기 수정 사양 세트와 파생 사양 세트의 합인 수정 사양의 체인으로 볼 수 있음. (`Δ𝑠𝑒𝑒𝑑𝑠 ∪ Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑`)
+
+그래서 결국 `Θ(𝑅𝑡𝑎𝑟𝑔𝑒𝑡)= True` 이 되는 것이 최종 목표.
+
+### Propose Solution
