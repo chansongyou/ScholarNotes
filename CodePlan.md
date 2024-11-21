@@ -21,9 +21,9 @@ CodePlan는 multi-step chain-of-edits (plan)으로 매 단계에서 LLM을 호�
 - 작업에 대한 구체적인 지침
 
 CodePlan은 다음과 같은 과정들을 포함:
-- 점진적 의존성 분석 (Incremental dependency analysis)
-- 변경 영향 분석 (Change may-impact)
-- 적응형 계획 알고리즘 (Adaptive planning algorithm(symbolic components))
+- **증분 의존성 분석 (Incremental dependency analysis)**
+- **변경 영향 분석 (Change may-impact)**
+- **적응형 계획 알고리즘 (Adaptive planning algorithm(symbolic components))**
 
 다음 두 repository 레벨의 작업으로 비교를 진행:
 1. 패키지 마이그레이션 (C#)
@@ -57,13 +57,6 @@ CodePlan은 다음과 같은 과정들을 포함:
 
 여기서 LLM-driven repository-level coding task는 아래와 같이 정의
 ```
-Given a start state of a repository 𝑅𝑠𝑡𝑎𝑟𝑡, a set of seed edit specifications Δ𝑠𝑒𝑒𝑑𝑠, an oracle Θ s.t.
-Θ(𝑅𝑠𝑡𝑎𝑟𝑡)= True, and an LLM 𝐿, the goal of an LLM-driven repository-level coding task is
-to reach a state 𝑅𝑡𝑎𝑟𝑔𝑒𝑡 = 𝐸𝑥𝑒𝑐𝑢𝑡𝑒𝐸𝑑𝑖𝑡𝑠 (𝐿, 𝑅𝑠𝑡𝑎𝑟𝑡, 𝑃) where 𝑃 is a chain of edit specifications from
-Δ𝑠𝑒𝑒𝑑𝑠 ∪ Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑 and Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑 is a set of derived edit specifications so that Θ(𝑅𝑡𝑎𝑟𝑔𝑒𝑡)= True.
-```
-
-설명하면,
 𝑅𝑠𝑡𝑎𝑟𝑡: 리포지토리의 시작 상태
 Δ𝑠𝑒𝑒𝑑𝑠: 초기 수정 사양 세트
 Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑: 파생 수정 사양 세트
@@ -71,9 +64,50 @@ to reach a state 𝑅𝑡𝑎𝑟𝑔𝑒𝑡 = 𝐸𝑥𝑒𝑐𝑢𝑡𝑒𝐸
 𝐿: LLM 
 
 LLM-driven repository-level coding task의 목적은 `𝑅𝑡𝑎𝑟𝑔𝑒𝑡 = 𝐸𝑥𝑒𝑐𝑢𝑡𝑒𝐸𝑑𝑖𝑡𝑠 (𝐿, 𝑅𝑠𝑡𝑎𝑟𝑡, 𝑃)` 인 𝑅𝑡𝑎𝑟𝑔𝑒𝑡에 도달하는 것인데, 
-
 여기서 P는 초기 수정 사양 세트와 파생 사양 세트의 합인 수정 사양의 체인으로 볼 수 있음. (`Δ𝑠𝑒𝑒𝑑𝑠 ∪ Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑`)
-
 그래서 결국 `Θ(𝑅𝑡𝑎𝑟𝑔𝑒𝑡)= True` 이 되는 것이 최종 목표.
+```
 
 ### Propose Solution
+
+리포지토리 레벨의 코딩은 계획 문제(planning problem)으로 구조화해 파생 사야을 계산하는 방법을 제안
+* 자동화된 계획 (Automated planning): 여러 단계의 문제 해결을 목표
+* 각 단계에서 여러 대안 중 한 action을 실행해 목표 상태에 도달하도록 함.
+
+#### CodePlan
+
+![image](https://github.com/user-attachments/assets/95245632-904f-4a6b-bc8d-99644b71eba4)
+
+* **CodePlan에게 주어지는 것들:**
+  1. 리포지토리
+  2. 자연어 지시나 수동 코드 편집 세트를 통해 표현된 초기 사양(seed specifications)을 포함한 작업(task)
+  3. 올바름(correctness)을 판단하는 오라클(oracle)
+  4. 지시를 받아 코드를 편집할 수 있는 LLM
+ 
+* **CodePlan이 하는 것:**
+   - **계획 그래프(plan graph)** 구성.
+      - 이 그래프에서 각 노드는 LLM이 해결해야 할 코드 편집 의무(code edit obligation)를 나타내고, 선(edge)은 소스 노드의 편집이 이루어진 이후에 대상 노드의 편집이 이루어져야 함을 나타냄.
+   - **코드 수정 모니터링 및 계획 그래프 확장**
+      - 수정 Δ𝑠𝑒𝑒𝑑𝑠는 작업 설명으로 형성.
+      - 수정 Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑는 증분 의존성 분석, 변경 영향 분석, 그리고 적응형 계획 알고리즘에 의해 형성.
+   - Merge block은 LLM이 생성한 코드를 repository에 merge
+   - 한 계획에서 모든 단계가 완료되면, 리포지토리는 오라클에 의해 분석.
+   - 오라클이 리포지토리를 검증하면 작업 완료.
+   - 에러가 발견되면, 해당 에러 리포트는 계획 생성과 실행의 반복에서 초기 사양으로써 사용됨.
+ 
+그럼 여기서 과정을 정리해 보면:
+1. Fig. 1. 과 같은 API 마이그레이션 작업이 초기 사양으로 들어옴.
+2. (어디를 고칠 지 찾는 방법은 생략된 건지 나와있지 않음. 여기서 증분 의존성 분석을 통해 이루어질 듯?)
+3. 1번에 나와있는 지시에 따라 코드를 수정 (여기서 Fig. 3.의 변경사항 1번만 포함)
+4. 수정된 코드를 분석 후, function signature가 변경되었으므로 **_escaping change_** 로 분류
+5. 변경 영향 분석으로 function signature가 변경된 해당 메서드를 호출하는 callers (Fig. 3. 에서는 `process` 메서드)를 찾음.
+6. 적응형 알고리즘이 caller-callee 의존성을 이용해 영향이 미치는 다른 함수/메서드를 찾아내 파생 사양을 추론.
+   - 각 사양에 따라 알맞은 프롬프트로 LLM에게 넘겨진다고 함.
+7. 결과적으로 생성된 코드는 오라클을 통해 빌드 에러 없이 통과하게 됨.
+
+이 과정이 단지 one-hop 변경 전파 과정. 실제로는 파생 변경사항은 전이적으로 다른 변경사항들을 필요로 할 수 있어서 multi-hop 과정으로 진행될 수 있음.
+
+### Contributions
+
+
+
