@@ -21,7 +21,7 @@ https://github.com/LingmaTongyi/Lingma-SWE-GPT/blob/main
 
 ### Repository Knowledge Graph Construction
 
-- AST를 이용해 전체 리포지토리를 Top-down 방식으로 Root(repository)에서부터 파일, 클래스, 메서드/함수 순으로 파싱해 **계층적 구조의 트리**로 구성.
+- AST를 이용해 전체 리포지토리를 Top-down 방식으로 Root(repository)에서부터 파일, 클래스, 메서드/함수 순으로 파싱해 **계층적 구조의 트리**로 구성.
 - 그리고 function call 관계도를 나타내기 위해, 위에서 만든 트리 구조에서 **참조 그래프 구조**로 확장.
   - (이 논문에서는 function이 실제 코드의 수행되는 기본 유닛이기 때문에 function간의 참조만 그래프 구조에 포함. 오히려 너무 많은 관계도가 포함되면 분석 효율과 정확도에 영향을 줄 수 있다고 함.)
 - 각 Entity별 메타데이터도 저장 (파일 경로, 이름, 코드 스니핏, 파일에서의 위치(line number), 등)
@@ -99,7 +99,7 @@ Node selection에 사용되는 알고리즘:
 시뮬레이션과 평가가 끝나면 terminal node에서부터 bottom-up으로 업데이트. 이건 기존의 MCTS와 동일.
 
 Reward가 6이상인 terminal 노드에서는 참조 확장이 일어남. 여기서 호출하는 함수들을 리포지토리 지식 그래프에 기반해서 확장.
-- **의문점**: 여기서도 그러면 (함수는 이미 leaf노드일 것이기 때문에 시뮬레이션 필요X) evaluation + backpropagation 이 트리거 되는건지..? 이런 것에 대한 자세한 설명은 나와있지 않음.
+- **의문점**: 여기서도 그러면 (함수는 이미 leaf노드일 것이기 때문에 시뮬레이션 필요X) evaluation + backpropagation 이 트리거 되는건지..? 이런 것에 대한 자세한 설명은 나와있지 않음.
 - 참조관계 확장, 평가, backpropagation이 진행이 된다면, 참조된 함수의 부모 노드들도 자연적으로 자연적으로 추가가 될 듯?
 - **해결**: 코드를 보니, reference expansion은 local_expand 로 구현됨. 예상한 대로 참조 확장으로 추가되는 노드의 부모 노드들이 모두 MCTS의 트리에 추가됨. 그리고 evaluation과 backpropagation이 발생.
 
