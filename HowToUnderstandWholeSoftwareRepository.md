@@ -87,3 +87,62 @@ Reward가 6이상인 terminal 노드에서는 참조 확장이 일어남. 여기
 
 #### Repository Summary
 
+1. MCTS를 이용해 문제/유저요구사항과 연관된 contents를 수집 후, summary agent(LLM)에게 요청.
+2. 위에서 제공한 contents 전체를 넣어주기엔 너무 크기 때문에, 해당 contents의 위치와 summary agent의 output만 RepoUnderstander에게 전달.
+   - 위치 예시: <file>a.py</file><class>ClassA</class><func>func a</func>
+   
+#### Dynamic Information Acquisition
+
+Repository summary에서 전달받은 정보를 바탕으로 문제와 현재 워크스페이스의 이해를 도와, 빠르게 솔루션을 찾아나감.
+
+여기서 RepoUnderstander가 추가로 필요한 정보들을 툴을 이용해 동적으로 수집.
+- ReAct 방식 채용.
+- 이 논문에서는 AutoCodeRover의 search API method를 따름. (search_class, search_method, search_code)
+- 간략하게 AutoCodeRover이 하는 방식을 나열하면,
+  1. Search API 호출이 필요한지를 결정.
+  2. 리포지토리 지식 그래프에서 retrieval API를 이용해 관련 classes, methods와 코드스니핏을 검색.
+  3. 찾은 결과를 반환.
+
+#### Patch Generation
+
+1. 수정이 필요한 코드 추출
+2. 수정된 코드 생성 by LLM
+3. 두 코드로 diff 추출
+4. 적용 가능한 diff가 나올때까지 재시도. (여기서는 max=3)
+
+## Experiment
+
+### SWE-bench-lite 비교
+
+![image](https://github.com/user-attachments/assets/74665d9d-cdd3-4112-af74-ee267487f5bc)
+
+**Configurations**
+- LLM Model for Agent-based: GPT-4-Turbo(gpt-4-1106-preview)
+- MCTS:
+  - max_iterations = 600
+  - maximum_search_time = 300s
+- Summary Agent:
+  - Top-k = 10 (10개의 관련 코드 스니핏을 요약하는데 사용)
+
+### MCTS, Summary Agent의 유무 비교
+
+![image](https://github.com/user-attachments/assets/fd816075-2683-4384-be6e-ba09442a6e08)
+
+- w.review: review agent를 추가해서 생성된 patch에 대해 review해서 실패하면 다시 생성하도록 해서 이 과정을 최대 3번까지 진행한 경우.
+
+### Hyperparameter 비교
+
+![image](https://github.com/user-attachments/assets/5f1b03b1-d512-422e-9102-c644cc6e5830)
+
+### SWE-agent와 결과 분포 비교
+
+![image](https://github.com/user-attachments/assets/8b3fc3dc-f3db-456c-90d4-2f79ab767b49)
+
+- 제대로된 패치를 생성하는 부분에서는 swe-agent 보다 부족하지만, localization에서는 좋은 성능을 보여줌.
+
+#### 문제 해결 과정 상세 비교
+
+![image](https://github.com/user-attachments/assets/20cfd00c-9138-435d-aa08-35db80fc4d43)
+
+- MCTS 의 경우엔 최종적으로 패치 생성에서 실패하더라도 추론 과정을 정확하게 판단하는 모습을 보여줌.
+
