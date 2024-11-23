@@ -2,16 +2,6 @@
 
 https://arxiv.org/pdf/2410.20285
 
-## Table of Contents
-
-* [Abstract](#abstract)
-* [1. Introduction](#1-introduction)
-* [2. Related Work](#2-related-work)
-  * [Search Method](#search-method)
-  * [Software Agents](#software-agents)
-* [3. Methodology](#3-methodology)  
-  * [3.1 Problem Formulation](#31-problem-formulation)
-
 ## Abstract
 
 __SWE-Search__ 를 소개.
