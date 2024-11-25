@@ -34,8 +34,9 @@ SWE-Search은 다중 에이전트 시스템으로 인간 엔지니어의 적응�
 **SWE-Bench 벤치마크를 가지고 평가.**
 
 
-## 2. Related Work
-
+## 2. Related Work 
+(생략)
+<!--
 ### Search Method
 
 - 가능한 선택지를 탐색하고 기억하는 전략과 이들 사이를 전환하는 휴리스틱 방식에서 차이를 보임.
@@ -55,6 +56,7 @@ SWE-Search은 다중 에이전트 시스템으로 인간 엔지니어의 적응�
 - [_AutoCodeRover_](https://arxiv.org/pdf/2404.05427): AST 및 스펙트럼 기반의 Fault Localization.
   - **TODO** 스펙트럼 기반의 Fault Localization이 뭔지 나중에 해당 논문을 확인해봐야 할듯.
 - _Alibaba Lingma Agent_: [How to Understand Whole Software Repository?](https://arxiv.org/pdf/2406.01422) 기반의 방식.
+-->
 
 ## 3. Methodology
 
@@ -70,6 +72,7 @@ __For Primary Components__
  3. __Value(Function) Agent__: 각 Observation의 유틸리티를 측정하기 위한 LLM-based value function. 자연어로 된 설명과 숫자를 반환함. 여기서 나온 설명은 그 다음 액션을 향상시키기 위해 사용됨(Self-feedback loop).
  4. __Discriminator Agent__: 마지막 단계에서 검색 과정에서 생성된 솔루션을 평가. 여기서 멀티 에이전트가 토론 후 최종 결정.
 
+<!--
 ### 3.1 Problem Formulation
 
 SWE-Agent의 작업 M
@@ -111,8 +114,7 @@ SWE-Agent의 작업 M
  - 이 가치 함수는 현재 상태와 행동뿐만 아니라 이전 상태와 행동의 역사에도 의존하기 때문에 마르코프 과정의 가정에서 벗어남.
 
 ![image](https://github.com/user-attachments/assets/3f161e96-e1e0-49d2-bcd0-1e3cce9553ab)
-
----
+-->
 
 ### 3.2 SWE-Search Framework and Action Agent
 
