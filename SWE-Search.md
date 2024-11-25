@@ -153,7 +153,7 @@ SWE-Agent의 작업 M
 
 지금까지의 설명을 토대로 진행 과정을 정리해보면 아래의 과정 반복:
 1. 변형된 UCT를 이용해 선택/확장 결정
-2. 기존 MCTS처럼 action에 의해 node가 확장되면 그 이후 쭉 trajectory 진행 후, value agent가 reward 계산.
+2. ~~기존 MCTS처럼 action에 의해 node가 확장되면 그 이후 쭉 trajectory 진행 후,~~ 현재까지의 trajectory와 현재 액션에 대해 value agent가 reward 계산.
 3. 나서 확장된 노드에 reward 반영
 4. Backpropagation
 
@@ -171,7 +171,7 @@ SWE-Search의 마지막 단계.
   - max_expansions = 3
   - max_iterations = 100
 
-### Results
+### 4.1 Results
 
 ![image](https://github.com/user-attachments/assets/37524d28-544c-4a6a-b62e-90f64679a412)
 
@@ -179,7 +179,19 @@ SWE-Search의 마지막 단계.
 - 여기서 Moatless-adapted는 검색->식별->수정 이 3가지 순서를 따르기 보다는 자유롭게 전환될 수 있도록 바꾼 방식.
   - Moatless-v1과 Moatless-adapted 간의 차이는 약 1.4%로 그렇게 크지 않음.
  
-### Impact of Hindsight Feedback on Agent Performance (다시 돌아볼 때 쓸 피드백이 에이전트의 성능에 주는 영향)
+#### Impact of Hindsight Feedback on Agent Performance (다시 돌아볼 때 쓸 피드백이 에이전트의 성능에 주는 영향)
+
+![image](https://github.com/user-attachments/assets/7e61c88f-49e6-4542-b766-105c6d13185c)
+
+피드백이 사용되는 방법.
+1. 맨 왼쪽의 Edit 노드에서 회색의 Finish 노드로 확장 후 Value agent가 평가.
+2. 두 번 째 아래의 하늘색 Edit 노드가 확장될 때, 프롬프트에 낮은 reward를 받았던 피드백을 추가해줌으로써 다른 방향으로 확장될 수 있도록 도움.
+
+#### 4.2 Importance of Comprehensive State Information for Value Function Performance (포괄적 상태 정보가 Value function의 성능에 미치는 영향)
+
+**포괄적 상태 정보란?**
+- 상태 정보: 
+- 각 상태(검색, 계획, 수정 등)별로 프롬프팅을 달리 해야함.
 
 
 
