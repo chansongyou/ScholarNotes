@@ -1,4 +1,4 @@
-# (Ongoing)SWE-Search: Enhancing Software Agents with Monte Carlo Tree Search and Interative Refinement
+# SWE-Search: Enhancing Software Agents with Monte Carlo Tree Search and Interative Refinement
 
 https://arxiv.org/pdf/2410.20285
 
@@ -175,6 +175,9 @@ SWE-Search의 마지막 단계.
 
 ![image](https://github.com/user-attachments/assets/37524d28-544c-4a6a-b62e-90f64679a412)
 
+![image](https://github.com/user-attachments/assets/86830d83-9643-4c88-bd38-416831b74f70)
+
+
 - 평균적으로 약 23% 성능 향상. (몇 번을 수행해서 평균을 냈는 지는 나오지 않음)
 - 여기서 Moatless-adapted는 검색->식별->수정 이 3가지 순서를 따르기 보다는 자유롭게 전환될 수 있도록 바꾼 방식.
   - Moatless-v1과 Moatless-adapted 간의 차이는 약 1.4%로 그렇게 크지 않음.
@@ -189,13 +192,37 @@ SWE-Search의 마지막 단계.
 
 #### 4.2 Importance of Comprehensive State Information for Value Function Performance (포괄적 상태 정보가 Value function의 성능에 미치는 영향)
 
-**포괄적 상태 정보란?**
-- 상태 정보: 
-- 각 상태(검색, 계획, 수정 등)별로 프롬프팅을 달리 해야함.
+- SWE-Search는 value function의 성능에 많이 의존하는데, 종종 제대로 된 액션을 취했음에도 reward를 낮게 주는 경우가 발생.
+- 각 상태(검색, 계획, 수정 등)별로 프롬프팅을 달리 해서 State-specific prompts를 이용해야 함.
+  - 그랬더니, 훨씬 성능이 향상됨. (디테일은 Appendix 8을 참고하라고 하지만, 아직 Appendix가 추가되지 않은 미완성 논문인듯)
 
+##### Scaling SWE agents with Inference-time Compute (추론 시간 계산으로 SWE agent 확장)
 
+현재까지 나오는 LLM 들은 트레이닝 시간(데이터)를 늘림으로써 발전을 이뤄왔다면, 최근엔 추론 시간을 늘림으로써 확장을 시도해보는 중.
 
-## 사용된 하이퍼파라미터 값들
+이 논문에서도 추론 시간(즉, iteration 횟수)를 늘렸을 때 얼마나 많은 성능 향상이 있는지를 확인.
+
+![image](https://github.com/user-attachments/assets/144564e3-9b93-48b5-86e6-f8fb458fcb6e)
+
+##### Convergence of Value Function and Discriminator to Right Solution
+
+Trajectory의 Mean Reward가 가장 높은 솔루션을 고르는 것과 Discriminator를 이용하는 것을 비교.
+
+![image](https://github.com/user-attachments/assets/c8f64773-68b3-4c8f-927a-12193fa771a1)
+
+y축의 값은 Pass@1 / Pass@p 여기서는 p=5 일듯. 즉 얼마나 정답에 수렴하는 지를 보여줌.
+
+보통 MCTS에서는 iteration을 1000번 가까이 해야하지만, 여기서는 100번만 하더라도 인상적인 결과를 보여줬지만, discriminator를 이용했을 때 추가적인 향상을 볼 수 있음.
+
+##### Different Models can Resolve Vastly Different Issue Subsets
+
+- 5개의 모델(gpt-4o, gpt-4o-mini, Qwen2.5-72B-Instruct, DeepSeek-V2.5, Llama-3.1-70b-Instruct)은 각각 다양한 문제들을 해결.
+- 약 21% 정도만 공통이고 나머지는 매우 다양.
+- 놀라운 점은, gpt-4o가 고치지 못한 이슈 중 다른 모델들로 했을 때 33개의 이슈가 고쳐짐.
+
+![image](https://github.com/user-attachments/assets/c1510eba-53bc-42b9-977c-018b53575fed)
+
+## (참고용) 사용된 하이퍼파라미터 값들
 
 ![image](https://github.com/user-attachments/assets/4f078c6a-8ae7-4704-9697-fe95730d6e90)
 
