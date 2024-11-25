@@ -31,7 +31,7 @@ SWE-Search은 다중 에이전트 시스템으로 인간 엔지니어의 적응�
         - SWE-Search에서는 잠재적 해결책들이 생성되면 Discriminator Agent가 다중 에이전트 토론을 시작하고, 각 에이전트는 서로 다른 솔루션을 지지하는 주장을 하고 이를 Disciminator Agent가 비판적으로 평가.
         - 이 과정을 통해 가장 견고한 솔루션을 선택하고 정제하는 실제 엔지니어링을 반영.
 
-SWE-Bench 벤치마크를 가지고 평가.
+**SWE-Bench 벤치마크를 가지고 평가.**
 
 
 ## 2. Related Work
@@ -157,8 +157,6 @@ SWE-Agent의 작업 M
 3. 나서 확장된 노드에 reward 반영
 4. Backpropagation
 
-(그럼 확장에 대한 내용은.. 완전 확장 값을 정해놓는 건가..? 이건 논문에서 아직 못 찾음)
-
 #### 3.4.1 Discriminator Agent
 
 SWE-Search의 마지막 단계.
@@ -167,6 +165,21 @@ SWE-Search의 마지막 단계.
 
 ## 4. Experiments
 
+- Benchmark: SWE-bench Lite (300 instances)
+- Evaluation Metrics: Pass@1 / Pass@5
+- SWE-Search에서 이용한 값:
+  - max_expansions = 3
+  - max_iterations = 100
+
+### Results
+
+![image](https://github.com/user-attachments/assets/37524d28-544c-4a6a-b62e-90f64679a412)
+
+- 평균적으로 약 23% 성능 향상. (몇 번을 수행해서 평균을 냈는 지는 나오지 않음)
+- 여기서 Moatless-adapted는 검색->식별->수정 이 3가지 순서를 따르기 보다는 자유롭게 전환될 수 있도록 바꾼 방식.
+  - Moatless-v1과 Moatless-adapted 간의 차이는 약 1.4%로 그렇게 크지 않음.
+ 
+### Impact of Hindsight Feedback on Agent Performance (다시 돌아볼 때 쓸 피드백이 에이전트의 성능에 주는 영향)
 
 
 
