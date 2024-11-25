@@ -1,7 +1,7 @@
 # How to Understand Whole Software Repository
 
-https://arxiv.org/pdf/2406.01422
-https://github.com/LingmaTongyi/Lingma-SWE-GPT/blob/main
+- PDF: https://arxiv.org/pdf/2406.01422
+- Github Repo: https://github.com/LingmaTongyi/Lingma-SWE-GPT/blob/main
 
 ## Abstract & Introduction 요약
 
