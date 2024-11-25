@@ -1,8 +1,8 @@
 # CodePlan: Repository-Level Coding using LLMs and Planning
 
-https://arxiv.org/pdf/2309.12499
-
-https://github.com/microsoft/codeplan
+- Conference: [ACM](https://dl.acm.org/)
+- PDF: https://arxiv.org/pdf/2309.12499
+- Github Repo: https://github.com/microsoft/codeplan
 
 ## Abstract
 
