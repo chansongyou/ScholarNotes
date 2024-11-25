@@ -1,8 +1,8 @@
 # RepoAgent: An LLM-Powered Open-Source Framework for Repository-level Code Documentation Generation
 
-https://arxiv.org/pdf/2402.16667
-
-https://github.com/OpenBMB/RepoAgent
+- Conference: [EMNLP](https://2024.emnlp.org/)
+- PDF: https://arxiv.org/pdf/2402.16667
+- GitHub Repo: https://github.com/OpenBMB/RepoAgent
 
 ## Abstract & Introduction 요약
 
