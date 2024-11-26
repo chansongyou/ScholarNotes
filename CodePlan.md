@@ -1,4 +1,4 @@
-# CodePlan: Repository-Level Coding using LLMs and Planning
+# (Ongoing)CodePlan: Repository-Level Coding using LLMs and Planning
 
 - Conference: [ACM](https://dl.acm.org/)
 - PDF: https://arxiv.org/pdf/2309.12499
@@ -53,7 +53,7 @@ CodePlan은 다음과 같은 과정들을 포함:
     * 오류 없이 빌드
     * 정적 분석 통과
     * 타입 시스템 or 테스트셋 통과
-    * Veritication tool 통과
+    * Verification tool 통과
 
 여기서 LLM-driven repository-level coding task는 아래와 같이 정의
 ```
@@ -70,7 +70,7 @@ LLM-driven repository-level coding task의 목적은 `𝑅𝑡𝑎𝑟𝑔𝑒�
 
 ### Propose Solution
 
-리포지토리 레벨의 코딩은 계획 문제(planning problem)으로 구조화해 파생 사야을 계산하는 방법을 제안
+리포지토리 레벨의 코딩은 계획 문제(planning problem)로 구조화해 파생 사양을 계산하는 방법을 제안
 * 자동화된 계획 (Automated planning): 여러 단계의 문제 해결을 목표
 * 각 단계에서 여러 대안 중 한 action을 실행해 목표 상태에 도달하도록 함.
 
@@ -86,7 +86,7 @@ LLM-driven repository-level coding task의 목적은 `𝑅𝑡𝑎𝑟𝑔𝑒�
  
 * **CodePlan이 하는 것:**
    - **계획 그래프(plan graph)** 구성.
-      - 이 그래프에서 각 노드는 LLM이 해결해야 할 코드 편집 의무(code edit obligation)를 나타내고, 선(edge)은 소스 노드의 편집이 이루어진 이후에 대상 노드의 편집이 이루어져야 함을 나타냄.
+      - 이 그래프에서 각 노드는 LLM이 해결해야 할 코드 편집 의무(code edit obligation)를 나타내고, 선(edge)은 그 다음 수행돼야 할 편집(노드)으로의 연결.
    - **코드 수정 모니터링 및 계획 그래프 확장**
       - 수정 Δ𝑠𝑒𝑒𝑑𝑠는 작업 설명으로 형성.
       - 수정 Δ𝑑𝑒𝑟𝑖𝑣𝑒𝑑는 증분 의존성 분석, 변경 영향 분석, 그리고 적응형 계획 알고리즘에 의해 형성.
